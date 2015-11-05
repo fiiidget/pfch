@@ -1,6 +1,13 @@
 from bs4 import BeautifulSoup
 import requests
-import csv
+import sys
+def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
+    enc = file.encoding
+    if enc == 'UTF-8':
+        print(*objects, sep=sep, end=end, file=file)
+    else:
+        f = lambda obj: str(obj).encode(enc, errors='backslashreplace').decode(enc)
+        print(*map(f, objects), sep=sep, end=end, file=file)
 
 playerdata = {}
 
@@ -13,20 +20,10 @@ if statistics.status_code != 200:
 
 stat_html = (statistics.text)
 
-stat_html = stat_html.encode('ascii', 'ignore').decode('ascii')
+# stat_html = stat_html.encode('ascii', 'ignore').decode('ascii')
 
 soup = BeautifulSoup(stat_html, "html.parser")
 
 player_stats = soup.find("table", attrs = {"class" : "sortable stats_table row_summable"})
 
-for a_stats in player_stats:
-
-    career = a_stats.find("tfoot"
-
-    print(career.text)
-
-    # for career_stats in career:
-    #
-    #     numbs = career_stats.find("tr", attrs = {"data-row" : "24"})
-    #
-    #     print(numbs)
+uprint(player_stats)
