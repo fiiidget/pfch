@@ -20,9 +20,12 @@ player_image = soup.find_all("div", attrs = {"id" : "inner-image-container"})
 
 for a_image in player_image:
 
-    cardimg = soup.find_all("img")
+    cardimg = a_image.find("img")
 
-    for card in cardimg:
+    # for card in cardimg:
+    #
+    #     print(card["alt"])
+    #     print(card["src"])
 
-        print(card["alt"])
-        print(card["src"])
+    print(cardimg["alt"])
+    print(cardimg["src"])
