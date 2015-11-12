@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
 
+cards = {}
 card_images = []
+card_alt_text = []
 
 url = "http://www.metmuseum.org/collection/the-collection-online/search/413556?pos=3&rpp=90&pg=1&ao=on&ft=baseball+cards"
 
@@ -27,5 +29,18 @@ for a_image in player_image:
     #     print(card["alt"])
     #     print(card["src"])
 
-    print(cardimg["alt"])
-    print(cardimg["src"])
+    if cardimg["alt"] not  in card_alt_text:
+        card_alt_text.append("alt")
+
+    if cardimg["src"] not in card_images:
+        card_images.append("src")
+
+print(cardimg["alt"])
+print(cardimg["src"])
+
+def cardlist(listo):
+    totalcards = len(listo)
+    print("you have" + totalcards + "in your list")
+
+number_of_cards = cardlist(card_images)
+print(number_of_cards)
