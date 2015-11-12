@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+from pfchfunctions import cardlist
 
 cardpages = ["pages"]
 cards = {}
@@ -40,26 +41,15 @@ for a_image in player_image:
     if Image_file not in card_images:
         card_images.append(Image_file)
 
-print(Alt_text)
-print(Image_file)
-
-def cardlist(listo):
-    totalcards = (len(listo)) - 1
-
-    answer = ("you have " + str(totalcards) + " real items in your " + str(listo[0]) + " list")
-    return answer
-
-number_of_cards = cardlist(card_images)
-numbers_of_descriptions = cardlist(card_alt_text)
-print(number_of_cards)
-print(numbers_of_descriptions)
-
 next_link = soup.find("a", attrs = {"class" : "next"})
 
 if next_link["href"] not in cardpages:
     cardpages.append(next_link["href"])
 
-
+print(Alt_text)
+print(Image_file)
+print(cardlist(card_images))
+print(cardlist(card_alt_text))
 print(cardpages)
 print(cardlist(cardpages))
 print(card_images)
