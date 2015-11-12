@@ -1,11 +1,13 @@
 from bs4 import BeautifulSoup
 import requests
 
+cardpages = []
 cards = {}
 card_images = []
 card_alt_text = []
 
-url = "http://www.metmuseum.org/collection/the-collection-online/search/413556?pos=3&rpp=90&pg=1&ao=on&ft=baseball+cards"
+
+url = "http://www.metmuseum.org/collection/the-collection-online/search/413556?pos=1&rpp=90&pg=1&ao=on&ft=baseball+cards"
 
 baseballcard = requests.get(url)
 
@@ -32,7 +34,7 @@ for a_image in player_image:
     Alt_text = cardimg["alt"]
     Image_file = cardimg["src"]
 
-    if Alt_text not  in card_alt_text:
+    if Alt_text not in card_alt_text:
         card_alt_text.append("alt")
 
     if Image_file not in card_images:
@@ -51,3 +53,7 @@ number_of_cards = cardlist(card_images)
 numbers_of_descriptions = cardlist(card_alt_text)
 print(number_of_cards)
 print(numbers_of_descriptions)
+
+next_link = soup.find("a", attrs = {"class" : "next"})
+
+print(next_link["href"])
