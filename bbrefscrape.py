@@ -26,4 +26,4 @@ soup = BeautifulSoup(stat_html, "html.parser")
 
 player_stats = soup.find("table", attrs = {"class" : "sortable stats_table row_summable"})
 
-uprint(player_stats)
+uprint(player_stats.text)
