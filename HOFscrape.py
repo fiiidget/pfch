@@ -25,11 +25,25 @@ if HOF_page.status_code != 200:
 
 page_html = HOF_page.text
 
-page_html = page_html.encode('ascii', 'ignore').decode('ascii')
+#page_html = page_html.encode('ascii', 'ignore').decode('ascii')
 
 soup = BeautifulSoup(page_html, "html.parser")
 
-player_names = soup.find_all("tr", attrs = {"class" : "0"})
+player_names = soup.find_all("td", attrs = {"align" : "left"})
+
+for player in player_names:
+    hofname = player.text
+    if hofname not in HOFplayernames:
+        HOFplayernames.append(hofname)
+
+for player in player_names:
+    playerlink = soup.find_all("a")
+
+    for link in playerlink:
+        #page = link["href"]
+        if link not in HOFplayerpages:
+            HOFplayerpages.append(link['href'])
 
 #for a_player in player_names:
-uprint(player_names)
+uprint(HOFplayernames)
+uprint(HOFplayerpages)
