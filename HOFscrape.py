@@ -12,6 +12,7 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
         f = lambda obj: str(obj).encode(enc, errors='backslashreplace').decode(enc)
         print(*map(f, objects), sep=sep, end=end, file=file)
 
+HOF = {}
 HOFplayernames = []
 HOFplayerpages = []
 
@@ -37,4 +38,19 @@ for arow in HOFtable:
 
 for player_link in a_player:
 
-    uprint(player_link.text, player_link["href"])
+#Should I bother to extract just the player inductees? There might be matches for managers?
+
+    HOFplayernames.append(player_link.text)
+
+    HOFplayerpages.append(player_link["href"])
+
+#put the things in the dictionary, make the dictionary xml? #actually do you really need to write it to anything?
+
+HOF = dict(zip(HOFplayernames, HOFplayerpages))
+
+writer = csv.writer(open('HOFdict.csv', 'w'))
+
+for key, value in HOF.items():
+    writer.writerow([key, value])
+
+# uprint(HOF)
