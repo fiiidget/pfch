@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
 #from pfchfunctions import cardlist
-from time import sleep
 import sys
 import csv
 

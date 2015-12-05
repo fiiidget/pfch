@@ -1,0 +1,21 @@
+# okay, what's next is that I want to write the player name and corresponding
+# link into a csv file. I can then refer to that CSV file for the met's cards
+# and if there's a match, use the brscraper tool to get the appropriate table
+# from the page.
+
+what I think that means that I need to do is write the csv, loop through the
+results from the met, and then compare those two lists, and when there is a match,
+pull the photo from the met and the table from bbrself.
+
+To Do:
+
+1. write the data to a csv file. (or would xml work better?)
+2. pull all the names from the Met results
+3. write that to something.
+4. compare the list of names from bbr and from the met
+5. where there is a match, pull the img file from the met
+6. and the link from bbr
+7. run the link with brscraper, which will totally work at some point
+8. connect those two things together?????????\
+9. I guess probably by putting them in an xml file
+10. Profit
