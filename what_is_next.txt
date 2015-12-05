@@ -19,3 +19,9 @@ DONE 1. write the data to a csv file. (or would xml work better?)
 8. connect those two things together?????????\
 9. I guess probably by putting them in an xml file
 10. Profit
+
+regarding the Met thing:
+
+Start at the honus wagner page, and then find the "next link" and rather than append to the list
+you're working from, append to another list, and replace the link you're working from and
+loop again. This will be less work for the program, I'm sure. 
