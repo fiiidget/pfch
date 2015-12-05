@@ -34,34 +34,36 @@ while (counter < 11):
         if next_link["href"] not in cardpages:
             cardpages.append(next_link["href"])
         counter = counter + 1
+#
+print(cardpages)
 
-        # # ----getting the info out of the pages----
-        # for x in cardpages:
-        #     url = "http://www.metmuseum.org"+str(x)
-        player_image = soup.find_all("div", attrs = {"id" : "inner-image-container"})
-
-        for a_image in player_image:
-
-            cardimg = a_image.find("img")
-
-            Alt_text = cardimg["alt"]
-            Image_file = cardimg["src"]
-
-            if Alt_text not in card_alt_text:
-                card_alt_text.append(Alt_text)
-
-            if Image_file not in card_images:
-                card_images.append(Image_file)
-
-
-
-
-
-
-# print(Alt_text)
-# print(Image_file)
-print(cardlist(card_images))
-print(cardlist(card_alt_text))
-# print(cardpages)
-print(cardlist(cardpages))
-# print(card_images)
+#         # # ----getting the info out of the pages----
+#         # for x in cardpages:
+#         #     url = "http://www.metmuseum.org"+str(x)
+#         player_image = soup.find_all("div", attrs = {"id" : "inner-image-container"})
+#
+#         for a_image in player_image:
+#
+#             cardimg = a_image.find("img")
+#
+#             Alt_text = cardimg["alt"]
+#             Image_file = cardimg["src"]
+#
+#             if Alt_text not in card_alt_text:
+#                 card_alt_text.append(Alt_text)
+#
+#             if Image_file not in card_images:
+#                 card_images.append(Image_file)
+#
+#
+#
+#
+#
+#
+# # print(Alt_text)
+# # print(Image_file)
+# print(cardlist(card_images))
+# print(cardlist(card_alt_text))
+# # print(cardpages)
+# print(cardlist(cardpages))
+# # print(card_images)

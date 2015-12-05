@@ -9,7 +9,7 @@ pull the photo from the met and the table from bbrself.
 
 To Do:
 
-1. write the data to a csv file. (or would xml work better?)
+DONE 1. write the data to a csv file. (or would xml work better?)
 2. pull all the names from the Met results
 3. write that to something.
 4. compare the list of names from bbr and from the met
