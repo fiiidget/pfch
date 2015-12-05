@@ -13,15 +13,16 @@ url = "http://collections.frick.org/view/objects/asimages/152"
 painting_page = requests.get(url)
 
 #just let us know if that failed
-if painting_page.status_code != 200:	
+if painting_page.status_code != 200:
 	print ("There was an error with", url)
 
 #we are storing the HTML of the page into the variable page_html using the .text attribute of the request result
 page_html = painting_page.text
 
 #now we are going to ask BS to parse the page
-soup = BeautifulSoup(page_html, "html.parser")	
+soup = BeautifulSoup(page_html, "html.parser")
 
+page_html = page_html.encode('ascii', 'ignore').decode('ascii')
 
 #now we can "query" the soup variable for the paterns we are looking for
 all_links = soup.find_all("a", attrs = {"class": "titleLink"})
@@ -48,7 +49,7 @@ for a_title_cell in all_title_cells:
 	title = a_title_cell.find("a", attrs = {"class": "titleLink"})
 
 	#if it is not found None is returned so lets make sure we found something
-	if title != None: 
+	if title != None:
 		print (title.text)
 
 #lets find the "Next" link
@@ -56,9 +57,3 @@ next_link = soup.find("a",text="Next")
 
 print ("The next page is:")
 print (next_link)
-
-
-
-
-
-
