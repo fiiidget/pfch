@@ -2,6 +2,23 @@ from bs4 import BeautifulSoup
 import requests
 from pfchfunctions import cardlist
 from time import sleep
+import sys
+
+url = ('http://www.baseball-reference.com/awards/hof.shtml')
+
+HOF_page = requests.get(url)
+
+if HOF_page.status_code != 200:
+    print ("there was an error with", url)
+
+
+page_html = HOF_page.text
+
+#page_html = page_html.encode('ascii', 'ignore').decode('ascii')
+
+soup = BeautifulSoup(page_html, "html.parser")
+
+HOFtable = soup.find_all("table", attrs = {"id" : "hof"})
 
 cardpages = ["/collection/the-collection-online/search/413556?pos=1&rpp=90&pg=1&ao=on&ft=baseball+cards"]
 cards = {}
@@ -18,7 +35,7 @@ while (counter < 11):
         url = "http://www.metmuseum.org"+str(y)
 
         baseballcard = requests.get(url)
-        sleep(10)
+        sleep(1)
         if baseballcard.status_code != 200:
             print("Uh-Oh, the page is messed up")
 
@@ -31,8 +48,10 @@ while (counter < 11):
 
         next_link = soup.find("a", attrs = {"class" : "next"})
 
-        if next_link["href"] not in cardpages:
-            cardpages.append(next_link["href"])
+        for link in next_link:
+
+            if link not in cardpages:
+                cardpages.append(next_link["href"])
         counter = counter + 1
 #
 print(cardpages)

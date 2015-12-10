@@ -47,10 +47,10 @@ for player_link in a_player:
 #put the things in the dictionary, make the dictionary xml? #actually do you really need to write it to anything?
 
 HOF = dict(zip(HOFplayernames, HOFplayerpages))
+#
+# writer = csv.writer(open('HOFdict.csv', 'w'))
+#
+# for key, value in HOF.items():
+#     writer.writerow([key, value])
 
-writer = csv.writer(open('HOFdict.csv', 'w'))
-
-for key, value in HOF.items():
-    writer.writerow([key, value])
-
-# uprint(HOF)
+uprint(HOF)
