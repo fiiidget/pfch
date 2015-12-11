@@ -46,17 +46,11 @@ for player_link in a_player:
 
     HOFplayerpages.append(player_link["href"])
 
-#put the things in the dictionary, make the dictionary xml? #actually do you really need to write it to anything?
+#put the thins in the dictionary, make the dictionary xml? #actually do you really need to write it to anything?
 
 HOF = dict(zip(HOFplayernames, HOFplayerpages))
-#
-# writer = csv.writer(open('HOFdict.csv', 'w'))
-#
-# for key, value in HOF.items():
-#     writer.writerow([key, value])
 
-with open('hall_of_fame.json', 'w') as f:
+writer = csv.writer(open('HOFdict.csv', 'w'))
 
-    f.write(json.dumps(HOF,indent=4))
-
-uprint(HOF)
+for key, value in HOF.items():
+    writer.writerow([key, value])
