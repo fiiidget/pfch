@@ -17,25 +17,42 @@ METcardimg = []
 METcardnext = []
 METcardtext = []
 
-url = ('http://www.metmuseum.org/collection/the-collection-online/search/413556?pos=1&rpp=90&pg=1&ao=on&ft=baseball+cards')
+cardpages = ["/collection/the-collection-online/search/413556?pos=1&rpp=90&pg=1&ao=on&ft=baseball+cards"]
+counter = 0
 
-MET_page = requests.get(url)
+while (counter < 2):
 
-if MET_page.status_code != 200:
-    print ("there was an error with", url)
+    for y in cardpages:
+
+        url = ("http://www.metmuseum.org"+str(y))
+
+# url = ('http://www.metmuseum.org/collection/the-collection-online/search/413556?pos=1&rpp=90&pg=1&ao=on&ft=baseball+cards')
+
+        MET_page = requests.get(url)
+
+        if MET_page.status_code != 200:
+            print ("there was an error with", url)
 
 
-met_html = MET_page.text
+        met_html = MET_page.text
 
-soup = BeautifulSoup(met_html, "html.parser")
+        soup = BeautifulSoup(met_html, "html.parser")
 
-METtitle = soup.find_all("div", attrs = {"class" : "tombstone-container"})
+        METtitle = soup.find_all("div", attrs = {"class" : "tombstone-container"})
 
-for container in METtitle:
-    card_info = container.find_all("h2")
+        for container in METtitle:
+            card_info = container.find_all("h2")
+            next_link = container.find_all("a", attrs = {"class" : "next"})
 
-for title in card_info:
-    if title not in METcardtext:
-        METcardtext.append(title.text)
+        for title in card_info:
+            if title not in METcardtext:
+                METcardtext.append(title.text)
+
+        for link in next_link:
+            if link not in METcardnext:
+                METcardnext.append(link["href"])
+
+
 
 uprint(METcardtext)
+uprint(METcardnext)

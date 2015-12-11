@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 #from pfchfunctions import cardlist
 import sys
-import csv
+import json
 
 def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
     enc = file.encoding
@@ -12,6 +12,8 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
         f = lambda obj: str(obj).encode(enc, errors='backslashreplace').decode(enc)
         print(*map(f, objects), sep=sep, end=end, file=file)
 
+
+Players_List = []
 HOF = {}
 HOFplayernames = []
 HOFplayerpages = []
@@ -52,5 +54,9 @@ HOF = dict(zip(HOFplayernames, HOFplayerpages))
 #
 # for key, value in HOF.items():
 #     writer.writerow([key, value])
+
+with open('hall_of_fame.json', 'w') as f:
+
+    f.write(json.dumps(HOF,indent=4))
 
 uprint(HOF)

@@ -4,21 +4,13 @@ from pfchfunctions import cardlist
 from time import sleep
 import sys
 
-url = ('http://www.baseball-reference.com/awards/hof.shtml')
-
-HOF_page = requests.get(url)
-
-if HOF_page.status_code != 200:
-    print ("there was an error with", url)
-
-
-page_html = HOF_page.text
-
-#page_html = page_html.encode('ascii', 'ignore').decode('ascii')
-
-soup = BeautifulSoup(page_html, "html.parser")
-
-HOFtable = soup.find_all("table", attrs = {"id" : "hof"})
+def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
+    enc = file.encoding
+    if enc == 'UTF-8':
+        print(*objects, sep=sep, end=end, file=file)
+    else:
+        f = lambda obj: str(obj).encode(enc, errors='backslashreplace').decode(enc)
+        print(*map(f, objects), sep=sep, end=end, file=file)
 
 cardpages = ["/collection/the-collection-online/search/413556?pos=1&rpp=90&pg=1&ao=on&ft=baseball+cards"]
 cards = {}
@@ -28,11 +20,11 @@ card_alt_text = ["alt text"]
 # ---collecting the pages----
 counter = 0
 
-while (counter < 11):
+while (counter < 2):
 
     for y in cardpages:
 
-        url = "http://www.metmuseum.org"+str(y)
+        url = ("http://www.metmuseum.org"+str(y))
 
         baseballcard = requests.get(url)
         sleep(1)
@@ -42,16 +34,16 @@ while (counter < 11):
 
         page_html = (baseballcard.text)
 
-        page_html = page_html.encode('ascii', 'ignore').decode('ascii')
-
         soup = BeautifulSoup(page_html, "html.parser")
 
-        next_link = soup.find("a", attrs = {"class" : "next"})
+        next_link = soup.find("div", attrs = {"class" : "tombstone-container"})
 
         for link in next_link:
 
+            # a_link = link["href"]
+
             if link not in cardpages:
-                cardpages.append(next_link["href"])
+                cardpages.append(link["href"])
         counter = counter + 1
 #
 print(cardpages)
