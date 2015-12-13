@@ -24,13 +24,13 @@ regarding the Met thing:
 
 Start at the honus wagner page, and then find the "next link" and rather than append to the list
 you're working from, append to another list, and replace the link you're working from and
-loop again. This will be less work for the program, I'm sure. 
+loop again. This will be less work for the program, I'm sure.
 
 12/13 Update, plans for week:
 
 Okay, so you have two dictionaries, which contain the names and useful links for each of the two site you're working from.
 The easy part of what to do is to loop through those links, and find the image and appropriate tables from each page.
-That should be the next thing you do. Write a seperate script that does that-- regardless of whether there's a match. So you could collect all the Met images and titles, and all the HOF names and tables. 
+That should be the next thing you do. Write a seperate script that does that-- regardless of whether there's a match. So you could collect all the Met images and titles, and all the HOF names and tables.
 
 Then work on the piece of code that will filter out only the matching ones, and insert that in front of the img/table scraping code.
 
@@ -61,3 +61,9 @@ TO DO 12/13:
 6. build a js page to host it all
 7. clean up github, add readme
 8. Profit
+
+IMPORTANT: PLEASE DON'T FUCK UP YOUR REPOSITORIES! You've made changes here, but the changes
+on the scripts on your laptop are the ultimate thing that needs to be preserved. branch if you
+need to, or commit them one by one so you don't accidentally write over something.
+You can always look back in the history, but don't make this harder than it needs to be.
+kthxbai
