@@ -16,6 +16,9 @@ Players_List = []
 HOF = {}
 HOFplayernames = []
 HOFplayerpages = []
+card_titles = []
+HOFinMET = []
+not_in_met = []
 
 url = ('http://www.baseball-reference.com/awards/hof.shtml')
 
@@ -49,14 +52,9 @@ for player_link in a_player:
 
 HOF = dict(zip(HOFplayernames, HOFplayerpages))
 
-MET = {}
-card_titles = []
-card_links = []
+for x in HOFplayernames:
 
-pages = range (0, 76, 1)
-for x in pages:
-
-    url = ("http://www.metmuseum.org/collection/the-collection-online/search?rpp=90&ao=on&ft=baseball+cards&pg="+str(x))
+    url = ("http://www.metmuseum.org/collection/the-collection-online/search?&noqs=true&ao=on&what=Baseball+cards&pg=1&ft="+str(x))
 
     result_page = requests.get(url)
     if result_page.status_code != 200:
@@ -67,6 +65,16 @@ for x in pages:
 
     soup = BeautifulSoup(result_html, "html.parser")
 
+    no_results = soup.find_all("div", attrs = {"class" : "no-results"})
+
+    for result in no_results:
+
+        no_player = result.find_all("span", attrs = {"class" : "no-results-searchterm"})
+
+        for player in no_player:
+
+            not_in_met.append(player.text)
+
     item_container = soup.find_all("div", attrs = {"class" : "list-view-object-info"})
 
     for list_item in item_container:
@@ -76,17 +84,11 @@ for x in pages:
         for name in item_name:
 
             card_titles.append(name.text)
+            #uprint(name.text)
+for guy in HOF:
 
-        item_link = list_item.find_all("a")
+    if guy not in not_in_met:
 
-        for link in item_link:
+        HOFinMET.append(guy)
 
-            card_links.append(link["href"])
-
-MET = dict(zip(card_titles, card_links))
-
-for namedplayer in HOF:
-
-    if namedplayer in str(card_titles):
-
-        uprint(namedplayer)
+uprint(len(HOFinMET))
