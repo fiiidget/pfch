@@ -1,0 +1,69 @@
+# okay, what's next is that I want to write the player name and corresponding
+# link into a csv file. I can then refer to that CSV file for the met's cards
+# and if there's a match, use the brscraper tool to get the appropriate table
+# from the page.
+
+what I think that means that I need to do is write the csv, loop through the
+results from the met, and then compare those two lists, and when there is a match,
+pull the photo from the met and the table from bbrself.
+
+To Do:
+
+DONE 1. write the data to a csv file. (or would xml work better?)
+DONE2. pull all the names from the Met results
+DONE3. write that to something.
+4. compare the list of names from bbr and from the met
+5. where there is a match, pull the img file from the met
+6. and the link from bbr
+7. run the link with brscraper, which will totally work at some point
+8. connect those two things together?????????\
+9. I guess probably by putting them in an json file
+10. Profit
+
+regarding the Met thing:
+
+Start at the honus wagner page, and then find the "next link" and rather than append to the list
+you're working from, append to another list, and replace the link you're working from and
+loop again. This will be less work for the program, I'm sure.
+
+12/13 Update, plans for week:
+
+Okay, so you have two dictionaries, which contain the names and useful links for each of the two site you're working from.
+The easy part of what to do is to loop through those links, and find the image and appropriate tables from each page.
+That should be the next thing you do. Write a seperate script that does that-- regardless of whether there's a match. So you could collect all the Met images and titles, and all the HOF names and tables.
+
+Then work on the piece of code that will filter out only the matching ones, and insert that in front of the img/table scraping code.
+
+And then take what you've got and format it into dictionaries that will then be written to JSON.
+The final format of what you want is:
+
+JSON-LIST
+	--> Each item in list is a dictionary
+		name
+		image
+		career stats
+			--> this is a dictionary
+		average stats
+			--> this is a dictionary
+		bbr page
+		met page
+
+And this will then be written into a website, using jquery javascript stuff and HTML. You need to look over how that works.
+This will be mostly the work of Thursday, when you can talk to Matt about it. When you are frustrated with your code, or etc, you can look over how to javascript.
+
+TO DO 12/13:
+
+1. write loop to go through list of urls gotten from first part (MET and HOF)
+2. write script to match titles from MET and HOF dictionaries (sets? simple string query? regex?)
+3. use br-scraper to get the appropriate items from bbr.
+4. format all of this into the list/dictionary/dictionary format outlined above
+5. write to JSON
+6. build a js page to host it all
+7. clean up github, add readme
+8. Profit
+
+IMPORTANT: PLEASE DON'T FUCK UP YOUR REPOSITORIES! You've made changes here, but the changes
+on the scripts on your laptop are the ultimate thing that needs to be preserved. branch if you
+need to, or commit them one by one so you don't accidentally write over something.
+You can always look back in the history, but don't make this harder than it needs to be.
+kthxbai
