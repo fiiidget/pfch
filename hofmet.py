@@ -15,7 +15,6 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
 Players_List = []
 HOF = {}
 HOFplayernames = []
-HOFplayerpages = []
 card_titles = []
 HOFinMET = []
 not_in_met = []
@@ -42,15 +41,14 @@ for arow in HOFtable:
 
 for player_link in a_player:
 
-#Should I bother to extract just the player inductees? There might be matches for managers?
+    player = player_link.text
+    link = player_link["href"]
 
-    HOFplayernames.append(player_link.text)
+    if player not in HOF:
 
-    HOFplayerpages.append(player_link["href"])
+        HOF[player] = [link]
 
-#put the thins in the dictionary, make the dictionary xml? #actually do you really need to write it to anything?
-
-HOF = dict(zip(HOFplayernames, HOFplayerpages))
+    HOFplayernames.append(player)
 
 for x in HOFplayernames:
 
@@ -75,20 +73,32 @@ for x in HOFplayernames:
 
             not_in_met.append(player.text)
 
-    item_container = soup.find_all("div", attrs = {"class" : "list-view-object-info"})
-
-    for list_item in item_container:
-
-        item_name = list_item.find_all("div", attrs = {"class" : "objtitle"})
-
-        for name in item_name:
-
-            card_titles.append(name.text)
+    # item_container = soup.find_all("div", attrs = {"class" : "list-view-object-info"})
+    #
+    # for list_item in item_container:
+    #
+    #     item_name = list_item.find_all("div", attrs = {"class" : "objtitle"})
+    #
+    #     for name in item_name:
+    #
+    #         card_titles.append(name.text)
             #uprint(name.text)
-for guy in HOF:
+
+HOFcopy = HOF.copy()
+
+for guy in HOFcopy:
+
+    if guy in not_in_met:
+
+        del HOF[guy]
 
     if guy not in not_in_met:
 
         HOFinMET.append(guy)
 
+
+uprint(HOF)
+uprint(len(HOF))
 uprint(len(HOFinMET))
+# uprint(HOF)
+# uprint(HOFplayernames)
