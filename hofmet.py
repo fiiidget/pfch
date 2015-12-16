@@ -46,7 +46,7 @@ for player_link in a_player:
 
     if player not in HOF:
 
-        HOF[player] = ["http://www.baseball-reference.com"+link]
+        HOF[player] = (link)
 
     HOFplayernames.append(player)
 
@@ -102,7 +102,13 @@ for guy in HOFcopy:
 
         HOFinMET.append(guy)
 
-uprint(HOF)
+writer = csv.writer(open('bbrlinks.csv', 'w'))
+
+for key, value in HOF.items():
+     writer.writerow([key, value])
+
+
+# uprint(HOF)
 # uprint(len(HOF))
 
 
