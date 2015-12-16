@@ -16,7 +16,7 @@ Players_List = []
 HOF = {}
 HOFplayernames = []
 card_titles = []
-HOFinMET = []
+HOFinMET = {}
 not_in_met = []
 
 url = ('http://www.baseball-reference.com/awards/hof.shtml')
@@ -57,59 +57,11 @@ for x in HOF:
     result_page = requests.get(url)
     if result_page.status_code != 200:
         uprint("oops, this one's no good: ", url)
-        time.sleep(0.2)
+        time.sleep(0.01)
 
     result_html = result_page.text
 
     soup = BeautifulSoup(result_html, "html.parser")
-
-    no_results = soup.find_all("div", attrs = {"class" : "no-results"})
-    item_container = soup.find_all("div", attrs = {"class" : "list-view-object-info"})
-
-    # if no_results == True:
-
-    for result in no_results:
-
-        no_player = result.find_all("span", attrs = {"class" : "no-results-searchterm"})
-
-        for player in no_player:
-
-            not_in_met.append(player.text)
-#This doesn't quite work. It appends all of the links to the first player that it finds, which
-#is Honus Wagner. I think maybe trying to do this in one script is ambitious. Make another one
-#that gets the names and Metlinks, and then merge them.
-    # else:
-    #
-    #     for list_item in item_container:
-    #
-    #         item_name = list_item.find_all("a")
-    #
-    #         for name in item_name:
-    #
-    #             metlink = name["href"]
-    #
-    #             HOF[player].append(metlink)
-
-HOFcopy = HOF.copy()
-
-for guy in HOFcopy:
-
-    if guy in not_in_met:
-
-        del HOF[guy]
-
-    if guy not in not_in_met:
-
-        HOFinMET.append(guy)
-
-writer = csv.writer(open('bbrlinks.csv', 'w'))
-
-for key, value in HOF.items():
-     writer.writerow([key, value])
-
-
-# uprint(HOF)
-# uprint(len(HOF))
 
 
     # item_container = soup.find_all("div", attrs = {"class" : "list-view-object-info"})
@@ -121,3 +73,98 @@ for key, value in HOF.items():
     #     for name in item_name:
     #
     #         metlink = name["href"]
+    #
+    #         try:
+    #             HOF[player].append(metlink)
+    #
+    #         except:
+
+    no_results = soup.find_all("div", attrs = {"class" : "no-results"})
+
+    for result in no_results:
+
+        no_player = result.find_all("span", attrs = {"class" : "no-results-searchterm"})
+
+        for player in no_player:
+
+            not_in_met.append(player.text)
+
+
+#This doesn't quite work. It appends all of the links to the first player that it finds, which
+#is Honus Wagner. I think maybe trying to do this in one script is ambitious. Make another one
+#that gets the names and Metlinks, and then merge them.
+    # else:
+    #
+
+#
+HOFcopy = HOF.copy()
+
+for guy in HOFcopy:
+
+    if guy in not_in_met:
+
+        del HOF[guy]
+
+    if guy not in not_in_met:
+
+        HOFinMET[guy] =[]
+
+writer = csv.writer(open('bbrlinks.csv', 'w'))
+
+for key, value in HOF.items():
+     writer.writerow([key, value])
+
+HOFinMETcopy = HOFinMET.copy()
+
+for guy in HOFinMETcopy:
+
+    url = ("http://www.metmuseum.org/collection/the-collection-online/search?&noqs=true&ao=on&what=Baseball+cards&pg=1&ft="+str(guy))
+
+    result_page = requests.get(url)
+    if result_page.status_code != 200:
+        uprint("oops, this one's no good: ", url)
+        time.sleep(0.01)
+
+    result_html = result_page.text
+
+    soup = BeautifulSoup(result_html, "html.parser")
+
+
+    item_container = soup.find_all("div", attrs = {"class" : "list-view-thumbnail"})
+
+    for list_item in item_container:
+
+        item_name = list_item.find_all("a")
+
+        for name in item_name:
+
+            metlink = []
+
+            metlink.append(name["href"])
+
+            if name["href"] not in HOFinMET:
+
+                HOFinMET[guy] = (metlink)
+
+write = csv.writer(open('HOFinMET.csv', 'w'))
+
+for key, value in HOFinMET.items():
+     write.writerow([key, value])
+
+
+
+#
+#
+# # uprint(HOF)
+# # uprint(len(HOF))
+#
+#
+#     # item_container = soup.find_all("div", attrs = {"class" : "list-view-object-info"})
+#     #
+#     # for list_item in item_container:
+#     #
+#     #     item_name = list_item.find_all("a")
+#     #
+#     #     for name in item_name:
+#     #
+#     #         metlink = name["href"]
