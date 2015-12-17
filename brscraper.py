@@ -75,16 +75,30 @@ class BRScraper:
                     header_name = base_header_name
                 header_names.append(header_name)
 
-            rows = table.find("tbody").find_all(is_parseable_row)
-            for row in rows:
-                entries = row.find_all("td")
-                entry_data = []
-                for entry in entries:
-                    if entry.string == None:
-                        entry_data.append("u""")
-                    else:
-                        entry_data.append(entry.string.strip())
-                if len(entry_data) > 0:
-                    data[table["id"]].append(dict(zip(header_names, entry_data)))
+            # rows = table.find("tbody").find_all(is_parseable_row)
+            # for row in rows:
+            #     entries = row.find_all("td")
+            #     entry_data = []
+            #     for entry in entries:
+            #         if entry.string == None:
+            #             entry_data.append("u""")
+            #         else:
+            #             entry_data.append(entry.string.strip())
+            #     if len(entry_data) > 0:
+            #         data[table["id"]].append(dict(zip(header_names, entry_data)))
+
+            foots = table.find("tfoot").find_all(is_parseable_row)
+            for foot in foots:
+                ft = foot.find_all("tr", attrs = {"class" : "stat_total"})
+                for foottotal in ft:
+                    entries = foottotal.find_all("td")
+                    entry_data = []
+                    for entry in entries:
+                        if entry.string == None:
+                            entry_data.append("u""")
+                        else:
+                            entry_data.append(entry.string.strip())
+                    if len(entry_data) > 0:
+                        data[table["id"]].append(dict(zip(header_names, entry_data)))
 
         return data

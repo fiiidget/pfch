@@ -83,10 +83,10 @@ with open("playerpages_cleanedup.csv", "r") as m:
 
                         indiv_stats.append(stat_num)
 
-        this_player = {}
+            this_player = {}
 
-        this_player = dict(zip(tracked_stats, indiv_stats))
+            this_player = dict(zip(tracked_stats, indiv_stats))
 
-        all_players.append(this_player) #this does it, but it prints the same stats to each one.
+            all_players.append(this_player) #this does it, but it prints the same stats to each one.
 
 uprint(all_players)

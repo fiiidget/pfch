@@ -4,6 +4,7 @@ import json
 import time
 import csv
 import sys
+import brscraper
 
 def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
     enc = file.encoding
@@ -14,7 +15,7 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
         print(*map(f, objects), sep=sep, end=end, file=file)
 
 all_cards = []
-
+careerstats = []
 
 with open("playerpages_cleanedup.csv", "r") as m:
 
@@ -22,9 +23,52 @@ with open("playerpages_cleanedup.csv", "r") as m:
 
     for row in reader:
 
-        url = ("http://www.metmuseum.org"+(row[2]))
+        url = ("http://baseball-reference.com"+(row[1]))
 
         result_page = requests.get(url)
+        if result_page.status_code != 200:
+            uprint("oops, this one's no good: ", url)
+            time.sleep(0.01)
+
+        result_html = result_page.text
+
+        soup = BeautifulSoup(result_html, "html.parser")
+
+        player_position = soup.find_all("span", attrs = {"itemprop" : "role"})
+
+        for position in player_position:
+
+            postest = position.text
+
+
+            if "Pitcher" in postest:
+
+                scraper = brscraper.BRScraper()
+                data = scraper.parse_tables(str(row[1]))
+
+
+                pitching = (data)
+                # total_pitching = (pitching["stat_total"])
+
+                careerstats.append(pitching)
+
+
+            if "Pitcher" not in postest:
+
+                scraper = brscraper.BRScraper()
+                data = scraper.parse_tables(str(row[1]))
+
+
+                batting = (data)
+                # total_batting = (batting["stat_total"])
+
+
+
+                careerstats.append(batting)
+
+        secondurl = ("http://www.metmuseum.org"+(row[2]))
+
+        result_page = requests.get(secondurl)
         if result_page.status_code != 200:
             uprint("oops, this one's no good: ", url)
             time.sleep(0.01)
@@ -60,7 +104,7 @@ with open("playerpages_cleanedup.csv", "r") as m:
             meta_div = a_meta.find_all("div")
 
             player_name = str(row[0])
-            year_stats = "no stats"
+            career_stats = careerstats
             bbr_page = "http://baseball-reference.com"+str(row[1])
             #name, year stats and bbr page will be added from elsewhere.
             title = "no title"
@@ -123,14 +167,13 @@ with open("playerpages_cleanedup.csv", "r") as m:
                         #find/replace for the 'label' span, then trim white space
                         accession_number = all_text.replace('Accession Number:' , '').strip()
 
-#adding stuff from bbr should go in here, I think. Else the bbr info lines need to be addressed elsewhere. before the json tho
-                #create / define a dictionary
+
                 this_card = {}
 
                 #all the fields as dictionary keys, with the variables from above
 
                 this_card['player_name'] = player_name
-                this_card['year_stats'] = year_stats
+                this_card['career_stats'] = career_stats
                 this_card['bbr_page'] = bbr_page
                 this_card['title'] = titled
                 this_card['publisher'] = publisher

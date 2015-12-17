@@ -11,16 +11,51 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
         f = lambda obj: str(obj).encode(enc, errors='backslashreplace').decode(enc)
         print(*map(f, objects), sep=sep, end=end, file=file)
 
-with open("bbrlinks.csv", "r") as bbrlinks:
+with open("playerpages_cleanedup.csv", "r") as m:
 
-    reader = csv.reader(bbrlinks)
+    reader = csv.reader(m)
 
     for row in reader:
 
-        scraper = brscraper.BRScraper()
-        data = scraper.parse_tables(str(row[1]))
+        url = ("http://baseball-reference.com"+str(row[1]))
 
-        print(data["batting_standard"][0]["OPS"])
-        #works basically. need to figure out how to get same stats at varying rows
-        #and allow for errors in returns for different types of guys
-        #doable
+        result_page = requests.get(url)
+        if result_page.status_code != 200:
+            uprint("oops, this one's no good: ", url)
+
+        result_html = result_page.text
+
+        soup = BeautifulSoup(result_html, "html.parser")
+
+        player_position = soup.find_all("span", attrs = {"itemprop" : "role"})
+
+        for position in player_position:
+
+            postest = position.text
+
+            if "Pitcher" in postest:
+
+
+
+# with open("playerpages_cleanedup.csv", "r") as bbrlinks:
+#
+#     reader = csv.reader(bbrlinks)
+#
+#     for row in reader:
+
+                scraper = brscraper.BRScraper()
+                data = scraper.parse_tables(str(row[1]))
+
+
+                pitching = (data["pitching_standard"])
+
+
+            else:
+
+                scraper = brscraper.BRScraper()
+                data = scraper.parse_tables(str(row[1]))
+
+                batting = (data["batting_standard"])
+
+            elif:
+                continue
