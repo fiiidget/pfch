@@ -30,7 +30,7 @@ class BRScraper:
         def is_parseable_row(tag):
             if not tag.name == "tr": return False
             if not tag.has_attr("class"): return True  # permissive
-            return "league_average_table" not in tag["class"] and "stat_total" not in tag["class"]
+            return "league_average_table" not in tag["class"] #and "stat_total" not in tag["class"] deal with this. what why????
 
         if isinstance(table_ids, str): table_ids = [table_ids]
 
@@ -54,7 +54,7 @@ class BRScraper:
             if verbose: print("Processing table " + table["id"])
             data[table["id"]] = []
 
-            headers = table.find("thead").find_all("th")
+            headers = table.find("tfoot").find_all("tr", attrs = {"class" : "thead"})
             header_names = []
             for header in headers:
                 if header.string == None:
@@ -89,16 +89,16 @@ class BRScraper:
 
             foots = table.find("tfoot").find_all(is_parseable_row)
             for foot in foots:
-                ft = foot.find_all("tr", attrs = {"class" : "stat_total"})
-                for foottotal in ft:
-                    entries = foottotal.find_all("td")
-                    entry_data = []
-                    for entry in entries:
-                        if entry.string == None:
-                            entry_data.append("u""")
-                        else:
-                            entry_data.append(entry.string.strip())
-                    if len(entry_data) > 0:
-                        data[table["id"]].append(dict(zip(header_names, entry_data)))
+                # ft = foot.find_all("tr", attrs = {"class" : "stat_total"})
+                # for foottotal in ft:
+                entries = foot.find_all("td")
+                entry_data = []
+                for entry in entries:
+                    if entry.string == None:
+                        entry_data.append("u""")
+                    else:
+                        entry_data.append(entry.string.strip())
+                if len(entry_data) > 0:
+                    data[table["id"]].append(dict(zip(header_names, entry_data)))
 
         return data

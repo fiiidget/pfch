@@ -5,6 +5,8 @@ import time
 import csv
 import sys
 import brscraper
+from bbtables import statscraper
+from bbtables import pitchscraper
 
 def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
     enc = file.encoding
@@ -34,37 +36,32 @@ with open("playerpages_cleanedup.csv", "r") as m:
 
         soup = BeautifulSoup(result_html, "html.parser")
 
-        player_position = soup.find_all("span", attrs = {"itemprop" : "role"})
+        position = soup.find_all("span", attrs = {"itemprop" : "role"})
 
-        for position in player_position:
+        for playerpos in position:
 
-            postest = position.text
+            if playerpos.text == "Pitcher":
 
+                careerstats = pitchscraper(soup)
 
-            if "Pitcher" in postest:
+            else:
 
-                scraper = brscraper.BRScraper()
-                data = scraper.parse_tables(str(row[1]))
-
-
-                pitching = (data)
-                # total_pitching = (pitching["stat_total"])
-
-                careerstats.append(pitching)
+                careerstats = statscraper(soup)
 
 
-            if "Pitcher" not in postest:
-
-                scraper = brscraper.BRScraper()
-                data = scraper.parse_tables(str(row[1]))
-
-
-                batting = (data)
-                # total_batting = (batting["stat_total"])
-
-
-
-                careerstats.append(batting)
+            # elif "Pitcher" not in postest:
+            #
+            #     scraper = brscraper.BRScraper()
+            #     data = scraper.parse_tables(str(row[1]))
+            #
+            #
+            #     batting = (data["batting_standard"])
+            #     # total_batting = (batting["stat_total"])
+            #
+            #     careerstats.append(batting)
+            #
+            # else:
+            #     continue
 
         secondurl = ("http://www.metmuseum.org"+(row[2]))
 

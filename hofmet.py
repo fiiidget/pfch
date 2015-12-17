@@ -63,22 +63,6 @@ for x in HOF:
 
     soup = BeautifulSoup(result_html, "html.parser")
 
-
-    # item_container = soup.find_all("div", attrs = {"class" : "list-view-object-info"})
-    #
-    # for list_item in item_container:
-    #
-    #     item_name = list_item.find_all("a")
-    #
-    #     for name in item_name:
-    #
-    #         metlink = name["href"]
-    #
-    #         try:
-    #             HOF[player].append(metlink)
-    #
-    #         except:
-
     no_results = soup.find_all("div", attrs = {"class" : "no-results"})
 
     for result in no_results:
@@ -90,13 +74,6 @@ for x in HOF:
             not_in_met.append(player.text)
 
 
-#This doesn't quite work. It appends all of the links to the first player that it finds, which
-#is Honus Wagner. I think maybe trying to do this in one script is ambitious. Make another one
-#that gets the names and Metlinks, and then merge them.
-    # else:
-    #
-
-#
 HOFcopy = HOF.copy()
 
 for guy in HOFcopy:
@@ -109,10 +86,6 @@ for guy in HOFcopy:
 
         HOFinMET[guy] =[]
 
-# writer = csv.writer(open('bbrlinks.csv', 'w'))
-#
-# # for key, value in HOF.items():
-#      writer.writerow([key, value])
 
 HOFinMETcopy = HOFinMET.copy()
 
@@ -152,21 +125,3 @@ write = csv.writer(open('playerpages.csv', 'w'))
 
 for key, value in playerpages.items():
      write.writerow([key, value])
-
-
-
-#
-#
-# # uprint(HOF)
-# # uprint(len(HOF))
-#
-#
-#     # item_container = soup.find_all("div", attrs = {"class" : "list-view-object-info"})
-#     #
-#     # for list_item in item_container:
-#     #
-#     #     item_name = list_item.find_all("a")
-#     #
-#     #     for name in item_name:
-#     #
-#     #         metlink = name["href"]

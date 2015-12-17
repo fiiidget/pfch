@@ -4,89 +4,90 @@ from time import sleep
 import sys
 import csv
 
-all_players = []
-tracked_stats = []
-this_player = {}
-indiv_stats = []
+def statscraper(player):
 
-def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
-    enc = file.encoding
-    if enc == 'UTF-8':
-        print(*objects, sep=sep, end=end, file=file)
-    else:
-        f = lambda obj: str(obj).encode(enc, errors='backslashreplace').decode(enc)
-        print(*map(f, objects), sep=sep, end=end, file=file)
+    this_player = {}
+    tracked_stats = []
+    indiv_stats = []
 
-url = ("http://baseball-reference.com/players/v/vanceda01.shtml")
+    batting_table = player.find_all("table", attrs = {"id" : "batting_standard"})
 
-result_page = requests.get(url)
-if result_page.status_code != 200:
-    uprint("oops, this one's no good: ", url)
+    for career_table in batting_table:
 
-result_html = result_page.text
+        career_stats = career_table.find_all("tfoot")
 
-soup = BeautifulSoup(result_html, "html.parser")
+        for stat_names in career_stats:
 
-batting_table = soup.find_all("table", attrs = {"id" : "batting_standard"})
+            names = stat_names.find_all("tr", attrs = {"class" : "thead"})
 
-for career_table in batting_table:
+            for a_name in names:
 
-    career_stats = career_table.find_all("tfoot")
+                onestat = a_name.find_all("th")
 
-    for stat_names in career_stats:
+                for a_stat in onestat:
 
-        names = stat_names.find_all("tr", attrs = {"class" : "thead"})
+                    stat_item = a_stat.text
 
-        for a_name in names:
+                    tracked_stats.append(stat_item)
 
-            onestat = a_name.find_all("th")
+        for stats in career_stats:
 
-            for a_stat in onestat:
+            statnumbers = stats.find_all("tr", attrs = {"class" : "stat_total"})
 
-                stat_item = a_stat.text
+            for number in statnumbers:
 
-                tracked_stats.append(stat_item)
+                a_number = number.find_all("td")
 
-with open("playerpages_cleanedup.csv", "r") as m:
+                for num in a_number:
 
-    reader = csv.reader(m)
+                    stat_num = num.text
 
-    for row in reader:
+                    indiv_stats.append(stat_num)
 
-        url = ("http://baseball-reference.com"+str(row[1]))
+                    this_player = dict(zip(tracked_stats, indiv_stats))
 
-        result_page = requests.get(url)
-        if result_page.status_code != 200:
-            uprint("oops, this one's no good: ", url)
+    return(this_player)
 
-        result_html = result_page.text
+def pitchscraper(player):
 
-        soup = BeautifulSoup(result_html, "html.parser")
+    this_player = {}
+    tracked_stats = []
+    indiv_stats = []
 
-        batting_table = soup.find_all("table", attrs = {"id" : "batting_standard"})
+    batting_table = player.find_all("table", attrs = {"id" : "pitching_standard"})
 
-        for career_table in batting_table:
+    for career_table in batting_table:
 
-            career_stats = career_table.find_all("tfoot")
+        career_stats = career_table.find_all("tfoot")
 
-            for stats in career_stats:
+        for stat_names in career_stats:
 
-                statnumbers = stats.find_all("tr", attrs = {"class" : "stat_total"})
+            names = stat_names.find_all("tr", attrs = {"class" : "thead"})
 
-                for number in statnumbers:
+            for a_name in names:
 
-                    a_number = number.find_all("td")
+                onestat = a_name.find_all("th")
 
-                    for num in a_number:
+                for a_stat in onestat:
 
-                        stat_num = num.text
+                    stat_item = a_stat.text
 
-                        indiv_stats.append(stat_num)
+                    tracked_stats.append(stat_item)
 
-            this_player = {}
+        for stats in career_stats:
 
-            this_player = dict(zip(tracked_stats, indiv_stats))
+            statnumbers = stats.find_all("tr", attrs = {"class" : "stat_total"})
 
-            all_players.append(this_player) #this does it, but it prints the same stats to each one.
+            for number in statnumbers:
 
-uprint(all_players)
+                a_number = number.find_all("td")
+
+                for num in a_number:
+
+                    stat_num = num.text
+
+                    indiv_stats.append(stat_num)
+
+                    this_player = dict(zip(tracked_stats, indiv_stats))
+
+    return(this_player)
