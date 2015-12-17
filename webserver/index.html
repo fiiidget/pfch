@@ -13,16 +13,30 @@
 
     </head>
     <body>
-
-
-        <!-- Add your site or application content here -->
-        <p>Hello world! This is HTML5 Boilerplate.</p>
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/main.js"></script>
 
+        <!-- Add your site or application content here -->
+        <link title="timeline-styles" rel="stylesheet" href="//cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
 
-        <h1>THIS IS A WEBPAGE</h1>
+        <script src="//cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+
+        <div id='timeline-embed' style="width: 100%; height: 600px"></div>
+
+        <script type="text/javascript">
+
+        timeline = new TL.Timeline('timeline-embed',
+        '/fortimeline.json');
+
+        </script>
+
+
+
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="js/main.js"></script> -->
+
+
+
 
 
     </body>

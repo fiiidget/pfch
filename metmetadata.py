@@ -49,20 +49,6 @@ with open("playerpages_cleanedup.csv", "r") as m:
                 careerstats = statscraper(soup)
 
 
-            # elif "Pitcher" not in postest:
-            #
-            #     scraper = brscraper.BRScraper()
-            #     data = scraper.parse_tables(str(row[1]))
-            #
-            #
-            #     batting = (data["batting_standard"])
-            #     # total_batting = (batting["stat_total"])
-            #
-            #     careerstats.append(batting)
-            #
-            # else:
-            #     continue
-
         secondurl = ("http://www.metmuseum.org"+(row[2]))
 
         result_page = requests.get(secondurl)
