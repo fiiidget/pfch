@@ -138,13 +138,13 @@ for guy in HOFinMETcopy:
 
         for name in item_name:
 
-            metlink = []
-
-            metlink.append(name["href"])
+            # metlink = []
+            #
+            # metlink.append(name["href"])
 
             if name["href"] not in HOFinMET:
 
-                HOFinMET[guy] = (metlink)
+                HOFinMET[guy] = (name["href"])
 
 write = csv.writer(open('HOFinMET.csv', 'w'))
 

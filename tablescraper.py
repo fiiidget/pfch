@@ -20,7 +20,7 @@ with open("bbrlinks.csv", "r") as bbrlinks:
         scraper = brscraper.BRScraper()
         data = scraper.parse_tables(str(row[1]))
 
-        print(data["batting_standard"][0]["HR"])
+        print(data["batting_standard"][0]["OPS"])
         #works basically. need to figure out how to get same stats at varying rows
         #and allow for errors in returns for different types of guys
         #doable
