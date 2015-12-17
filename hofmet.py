@@ -109,10 +109,10 @@ for guy in HOFcopy:
 
         HOFinMET[guy] =[]
 
-writer = csv.writer(open('bbrlinks.csv', 'w'))
-
-for key, value in HOF.items():
-     writer.writerow([key, value])
+# writer = csv.writer(open('bbrlinks.csv', 'w'))
+#
+# # for key, value in HOF.items():
+#      writer.writerow([key, value])
 
 HOFinMETcopy = HOFinMET.copy()
 
@@ -146,9 +146,11 @@ for guy in HOFinMETcopy:
 
                 HOFinMET[guy] = (name["href"])
 
-write = csv.writer(open('HOFinMET.csv', 'w'))
+playerpages = { k: [ HOF[k], HOFinMET[k] ] for k in HOF }
 
-for key, value in HOFinMET.items():
+write = csv.writer(open('playerpages.csv', 'w'))
+
+for key, value in playerpages.items():
      write.writerow([key, value])
 
 

@@ -4,6 +4,7 @@ from time import sleep
 import sys
 import csv
 
+all_players = []
 tracked_stats = []
 this_player = {}
 indiv_stats = []
@@ -46,7 +47,7 @@ for career_table in batting_table:
 
                 tracked_stats.append(stat_item)
 
-with open("bbrlinks.csv", "r") as m:
+with open("playerpages_cleanedup.csv", "r") as m:
 
     reader = csv.reader(m)
 
@@ -82,6 +83,10 @@ with open("bbrlinks.csv", "r") as m:
 
                         indiv_stats.append(stat_num)
 
-this_player = dict(zip(tracked_stats, indiv_stats))
+        this_player = {}
 
-uprint(this_player)
+        this_player = dict(zip(tracked_stats, indiv_stats))
+
+        all_players.append(this_player) #this does it, but it prints the same stats to each one.
+
+uprint(all_players)

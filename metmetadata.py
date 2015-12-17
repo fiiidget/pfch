@@ -16,13 +16,13 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
 all_cards = []
 
 
-with open("HOFinMET.csv", "r") as m:
+with open("playerpages_cleanedup.csv", "r") as m:
 
     reader = csv.reader(m)
 
     for row in reader:
 
-        url = ("http://www.metmuseum.org"+(row[1]))
+        url = ("http://www.metmuseum.org"+(row[2]))
 
         result_page = requests.get(url)
         if result_page.status_code != 200:
@@ -59,8 +59,10 @@ with open("HOFinMET.csv", "r") as m:
 
             meta_div = a_meta.find_all("div")
 
-            player_name = "no name"
+            player_name = str(row[0])
             year_stats = "no stats"
+            bbr_page = "http://baseball-reference.com"+str(row[1])
+            #name, year stats and bbr page will be added from elsewhere.
             title = "no title"
             publisher = "no publisher"
             date = "no date"
@@ -71,7 +73,7 @@ with open("HOFinMET.csv", "r") as m:
             accession_number = "no accession_number"
 
 
-            #check if it has the 10 metadata fields
+
             if len(meta_div) > 0:
                 #loop through for text inside the div
                 for a_div in meta_div:
@@ -81,47 +83,47 @@ with open("HOFinMET.csv", "r") as m:
                     if 'Publisher:' in all_text:
                         #create the variable for that field
                         #find/replace for the 'label' span, then trim white space
-                        maker = all_text.replace('Maker:' , '')
+                        publisher = all_text.replace('Publisher:' , '').strip()
 
 
                     #keyword check to identify data field
                     if 'Date:' in all_text:
                         #create the variable for that field
                         #find/replace for the 'label' span, then trim white space
-                        date = all_text.replace('Date:' , '')
+                        date = all_text.replace('Date:' , '').strip()
 
                     #keyword check to identify data field
                     if 'Medium:' in all_text:
                         #create the variable for that field
                         #find/replace for the 'label' span, then trim white space
-                        medium = all_text.replace('Medium:' , '')
+                        medium = all_text.replace('Medium:' , '').strip()
 
                     #keyword check to identify data field
                     if 'Dimensions:' in all_text:
                         #create the variable for that field
                         #find/replace for the 'label' span, then trim white space
-                        dimensions = all_text.replace('Dimensions:' , '')
+                        dimensions = all_text.replace('Dimensions:' , '').strip()
 
                     #keyword check to identify data field
                     if 'Classifications:' in all_text:
                         #create the variable for that field
                         #find/replace for the 'label' span, then trim white space
-                        classifications = all_text.replace('Classifications:' , '')
+                        classifications = all_text.replace('Classifications:' , '').strip()
 
                     #keyword check to identify data field
                     if 'Credit Line:' in all_text:
                         #create the variable for that field
                         #find/replace for the 'label' span, then trim white space
-                        credit_line = all_text.replace('Credit Line:' , '')
+                        credit_line = all_text.replace('Credit Line:' , '').strip()
 
 
                     #keyword check to identify data field
                     if 'Accession Number:' in all_text:
                         #create the variable for that field
                         #find/replace for the 'label' span, then trim white space
-                        accession_number = all_text.replace('Accession Number:' , '')
+                        accession_number = all_text.replace('Accession Number:' , '').strip()
 
-
+#adding stuff from bbr should go in here, I think. Else the bbr info lines need to be addressed elsewhere. before the json tho
                 #create / define a dictionary
                 this_card = {}
 
@@ -129,6 +131,7 @@ with open("HOFinMET.csv", "r") as m:
 
                 this_card['player_name'] = player_name
                 this_card['year_stats'] = year_stats
+                this_card['bbr_page'] = bbr_page
                 this_card['title'] = titled
                 this_card['publisher'] = publisher
                 this_card['date'] = date
